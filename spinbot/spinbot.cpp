@@ -2,10 +2,79 @@
 //
 
 #include "stdafx.h"
+#include "hax.h"
 
+// #define DEBUG
+
+using namespace std;
+
+mt19937 gRNG;
+
+int GetRandomInt(int min, int max)
+{
+	uniform_int_distribution<mt19937::result_type>dist6(min, max);
+
+	return dist6(gRNG);
+}
 
 int main()
 {
-    return 0;
+	SetConsoleTitle(TEXT(TITLE)); // recompile with something else to get a different MD5 hash
+
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, 11); // cyan
+
+#if defined DEBUG
+	cout << GetSystemMetrics(SM_CXSCREEN) / 2 << endl << GetSystemMetrics(SM_CYSCREEN) / 2 << endl;
+#endif
+
+	gRNG.seed(random_device()());
+
+	_beginthread(Start, 0, NULL);
+
+	cout << "Hold SPACE to spin" << endl << "Turn off raw input";
+	
+	while(true)
+	{
+		Sleep(1000); // don't exit the program
+	}
+
+	return 0;
+}
+
+void Spin()
+{
+	static int rad = RADIUS;
+	static double angle = 0;
+
+	angle += SPEED;
+
+	int iRadius = rad - SPEEDRAND + GetRandomInt(0, SPEEDRAND * 1.2);
+
+	double x = cos(angle) * iRadius;
+	double y = sin(angle) * iRadius;
+
+	if((int)angle % 50 == 0)
+	{
+		rad = (RADIUS * 0.80) + GetRandomInt(0, RADIUS / 10);
+	}
+
+	x += GetSystemMetrics(SM_CXSCREEN) / 2;
+	y += GetSystemMetrics(SM_CYSCREEN) / 2;
+
+	SetCursorPos((int)x, (int)y);
+}
+
+void Start(void *cancer)
+{
+	while(true)
+	{
+		if(GetAsyncKeyState(VK_SPACE) & (1 << 15))
+		{
+			Spin();
+		}
+
+		Sleep(GetRandomInt(5, 10));
+	}
 }
 
