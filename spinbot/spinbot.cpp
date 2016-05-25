@@ -32,7 +32,7 @@ int main()
 
 	_beginthread(Start, 0, NULL);
 
-	cout << "Hold SPACE to spin" << endl << "Turn off raw input";
+	cout << "Hold SPACE to spin" << endl << "Turn raw input ON!";
 	
 	while(true)
 	{
@@ -62,7 +62,7 @@ void Spin()
 	x += GetSystemMetrics(SM_CXSCREEN) / 2;
 	y += GetSystemMetrics(SM_CYSCREEN) / 2;
 
-	SetCursorPos((int)x, (int)y);
+	MoveMouseTo(x, y);
 }
 
 void Start(void *cancer)
@@ -74,7 +74,7 @@ void Start(void *cancer)
 			Spin();
 		}
 
-		Sleep(GetRandomInt(5, 10));
+		Sleep(1);
 	}
 }
 
