@@ -46,23 +46,27 @@ void Spin()
 {
 	static int rad = RADIUS;
 	static double angle = 0;
+	
+	switch(dir)
+	{
+		case Clockwise: angle += SPEED; break;
+		case CounterClockwise: angle -= SPEED; break;
+	}
 
-	angle += SPEED;
-
-	int iRadius = rad - SPEEDRAND + GetRandomInt(0, SPEEDRAND * 1.2);
+	double iRadius = rad - SPEEDRAND + GetRandomInt(0, (int)(SPEEDRAND * 1.2));
 
 	double x = cos(angle) * iRadius;
 	double y = sin(angle) * iRadius;
 
 	if((int)angle % 50 == 0)
 	{
-		rad = (RADIUS * 0.80) + GetRandomInt(0, RADIUS / 10);
+		rad = (int)((RADIUS * 0.80)) + GetRandomInt(0, RADIUS / 10);
 	}
 
 	x += GetSystemMetrics(SM_CXSCREEN) / 2;
 	y += GetSystemMetrics(SM_CYSCREEN) / 2;
 
-	MoveMouseTo(x, y);
+	MoveMouseTo((long)(x), (long)(y + 25));
 }
 
 void Start(void *cancer)

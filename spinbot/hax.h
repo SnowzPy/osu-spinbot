@@ -1,12 +1,20 @@
 #pragma once
-#define SPEEDRAND 30
-#define RADIUS 390
-#define SPEED 0.30 // 0.42 and above = 477 // 130 will outspin EVERYTHING
+#define SPEEDRAND 30 // random shapes 
+#define RADIUS 350 // spin radius. higher number, bigger spins
+#define SPEED 0.100 // 0.10 and above = 477 // 0.100 will outspin almost everything
 #define TITLE "Steam"
+
+enum Direction
+{
+	Clockwise,
+	CounterClockwise
+};
+
+Direction dir = Clockwise; // modify if you want
 
 void Start(void *cancer);
 
-int MoveMouseTo(int x, int y)
+int MoveMouseTo(long x, long y)
 {
 	INPUT InputData;
 	InputData.type = INPUT_MOUSE;
